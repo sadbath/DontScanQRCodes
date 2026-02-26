@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>DON'T SCAN QR CODES</title>
+    <meta name="description" content="FBI-documented QR code fraud is up 587%. A public safety resource with citations.">
+    <meta name="theme-color" content="#000000">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --danger: #cc0000;
+            --warn: #f5c518;
+            --dim: #6b6b6b;
+            --surface: #f0ede6;
+            --line: #0a0a0a;
+            --mono: 'IBM Plex Mono', 'Courier New', monospace;
+            --sans: 'Inter', -apple-system, Helvetica Neue, sans-serif;
+            --safe-b: env(safe-area-inset-bottom, 0px);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--surface);
+            color: var(--black);
+            line-height: 1.55;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        ::selection {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        a { color: inherit; }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); border: 0;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--danger);
+            z-index: 9999;
+            width: 0;
+            pointer-events: none;
+        }
+
+        .ticker {
+            background: var(--danger);
+            color: var(--white);
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 3px solid var(--black);
+        }
+        .ticker-inner {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .ticker-inner { animation: none; }
+        }
+
+        .hero {
+            background: var(--black);
+            color: var(--white);
+            padding: 40px 20px 48px;
+            border-bottom: 4px solid var(--danger);
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            .hero { padding: 64px 48px 72px; }
+        }
+        @media (min-width: 1100px) {
+            .hero { padding: 80px 64px 96px; }
+        }
+
+        .hero-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--danger);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-family: var(--sans);
+            font-weight: 900;
+            font-size: clamp(3rem, 15vw, 12rem);
+            line-height: 0.85;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin: 0;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: var(--danger);
+            display: block;
+        }
+        .hero-desc {
+            margin-top: 28px;
+            max-width: 520px;
+            font-size: 15px;
+            line-height: 1.65;
+            color: #999;
+        }
+        @media (min-width: 768px) {
+            .hero-desc { font-size: 17px; }
+        }
+        .hero-date {
+            margin-top: 32px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-corner {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .hero-corner {
+                display: flex;
+                position: absolute;
+                top: 48px;
+                right: 48px;
+                width: 100px;
+                height: 100px;
+                border: 3px solid var(--danger);
+                align-items: center;
+                justify-content: center;
+                font-family: var(--mono);
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--danger);
+                text-align: center;
+                line-height: 1.4;
+            }
+        }
+        @media (min-width: 1100px) {
+            .hero-corner {
+                top: 64px;
+                right: 64px;
+                width: 120px;
+                height: 120px;
+            }
+        }
+        .nav {
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--white);
+            border-bottom: 3px solid var(--black);
+        }
+        @media (min-width: 768px) {
+            .nav { display: flex; }
+        }
+        .nav a {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-decoration: none;
+            padding: 18px 28px;
+            border-right: 2px solid var(--black);
+            color: var(--black);
+            transition: background 0.1s, color 0.1s;
+            user-select: none;
+        }
+        .nav a:last-child { border-right: none; }
+        .nav a:hover,
+        .nav a.is-active {
+            background: var(--black);
+            color: var(--white);
+        }
+        .mob-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: var(--black);
+            border-top: 3px solid #333;
+            display: flex;
+            padding: 6px 4px calc(6px + var(--safe-b));
+        }
+        @media (min-width: 768px) {
+            .mob-bar { display: none; }
+        }
+        .mob-bar a {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 10px 4px;
+            text-decoration: none;
+            color: #888;
+            font-family: var(--mono);
+            font-size: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            border-radius: 6px;
+        }
+        .mob-bar a.is-active { color: var(--white); }
+        .mob-bar a:active { background: rgba(255,255,255,0.06); }
+        .mob-bar .ico {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        body { padding-bottom: calc(72px + var(--safe-b)); }
+        @media (min-width: 768px) { body { padding-bottom: 0; } }
+
+        .alert-box {
+            margin: 0;
+            background: var(--warn);
+            border-bottom: 3px solid var(--black);
+            padding: 28px 20px;
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            .alert-box { padding: 36px 48px; }
+        }
+        .alert-box::before {
+            content: '⚠';
+            font-size: 24px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .alert-box h2 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+        }
+        .alert-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 640px;
+        }
+        .alert-box strong { font-weight: 700; }
+        .alert-box .src {
+            margin-top: 14px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: rgba(0,0,0,0.45);
+        }
+        .alert-box .src a { color: inherit; }
+
+        .stats {
+            border-bottom: 3px solid var(--black);
+            background: var(--white);
+        }
+        .stats-row {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+        }
+        .stats-row::-webkit-scrollbar { display: none; }
+        .stats-row { scrollbar-width: none; }
+
+        .stat {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+            padding: 28px 24px;
+            border-right: 2px solid var(--black);
+            display: flex;
+            flex-direction: column;
+        }
+        .stat:last-child { border-right: none; }
+        @media (min-width: 768px) {
+            .stat { flex: 1; min-width: 0; }
+        }
+        .stat-val {
+            font-family: var(--mono);
+            font-size: clamp(2.4rem, 8vw, 4.2rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        .stat-val.red { color: var(--danger); }
+        .stat-txt {
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: #444;
+            flex: 1;
+        }
+        .stat-cite {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #ddd;
+            font-family: var(--mono);
+            font-size: 9px;
+            color: var(--dim);
+        }
+
+        .stat.accent {
+            background: var(--black);
+            color: var(--white);
+        }
+        .stat.accent .stat-val { color: var(--warn); }
+        .stat.accent .stat-txt { color: #aaa; }
+        .stat.accent .stat-cite { border-color: #333; color: #666; }
+
+        .swipe-hint {
+            padding: 10px 20px;
+            font-family: var(--mono);
+            font-size: 9px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-top: 1px solid #e0e0e0;
+        }
+        @media (min-width: 768px) { .swipe-hint { display: none; } }
+
+        .sect {
+            border-bottom: 3px solid var(--black);
+        }
+        .sect-head {
+            padding: 28px 20px 24px;
+            border-bottom: 1px solid #ccc;
+        }
+        @media (min-width: 768px) {
+            .sect-head { padding: 40px 48px 32px; }
+        }
+        .sect-idx {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--danger);
+            margin-bottom: 6px;
+        }
+        .sect h2 {
+            font-family: var(--sans);
+            font-weight: 900;
+            font-size: clamp(1.8rem, 6vw, 3.6rem);
+            text-transform: uppercase;
+            line-height: 0.92;
+            letter-spacing: -0.03em;
+        }
+        .sect-body {
+            padding: 24px 20px 40px;
+        }
+        @media (min-width: 768px) {
+            .sect-body { padding: 32px 48px 56px; }
+        }
+        .sect-body > p {
+            font-size: 16px;
+            line-height: 1.72;
+            max-width: 640px;
+            margin-bottom: 18px;
+        }
+        @media (min-width: 768px) {
+            .sect-body > p { font-size: 17px; }
+        }
+        .sect-body > p:last-child { margin-bottom: 0; }
+        .sect-body strong { font-weight: 700; }
+
+        /* sup refs */
+        sup a {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--danger);
+            text-decoration: none;
+            vertical-align: super;
+        }
+        .pull-quote {
+            background: var(--black);
+            color: var(--white);
+            padding: 32px 24px;
+            margin: 28px 0;
+            border-left: 6px solid var(--danger);
+        }
+        @media (min-width: 768px) {
+            .pull-quote { padding: 40px 48px; margin: 36px 0; }
+        }
+        .pull-quote blockquote {
+            font-family: var(--sans);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+        @media (min-width: 768px) {
+            .pull-quote blockquote { font-size: 26px; }
+        }
+        .pull-quote cite {
+            display: block;
+            margin-top: 20px;
+            font-family: var(--mono);
+            font-size: 11px;
+            font-style: normal;
+            color: #666;
+            line-height: 1.5;
+        }
+        .pull-quote cite a { color: #666; }
+
+        .flow {
+            background: var(--black);
+            color: var(--white);
+            padding: 32px 20px;
+            border-bottom: 3px solid var(--danger);
+        }
+        @media (min-width: 768px) {
+            .flow { padding: 56px 48px; }
+        }
+        .flow-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--dim);
+            margin-bottom: 28px;
+        }
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        @media (min-width: 768px) {
+            .flow-steps {
+                flex-direction: row;
+                gap: 0;
+            }
+        }
+        .flow-step {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            padding: 20px;
+            position: relative;
+            flex: 1;
+        }
+        @media (min-width: 768px) {
+            .flow-step { border-right: none; }
+            .flow-step:last-child { border-right: 1px solid #2a2a2a; }
+        }
+        .flow-step.is-danger {
+            border-color: var(--danger);
+            background: rgba(204, 0, 0, 0.08);
+        }
+        .flow-step.is-end {
+            border-color: var(--warn);
+            background: rgba(245, 197, 24, 0.06);
+        }
+        .flow-step-n {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dim);
+            margin-bottom: 8px;
+        }
+        .flow-step p {
+            font-size: 13px;
+            line-height: 1.45;
+            color: #ccc;
+        }
+        .flow-arrow-down {
+            text-align: center;
+            padding: 4px;
+            font-size: 16px;
+            color: #444;
+            font-family: var(--mono);
+        }
+        @media (min-width: 768px) {
+            .flow-arrow-down { display: none; }
+        }
+        .breaker {
+            padding: 56px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--black);
+        }
+        @media (min-width: 768px) {
+            .breaker { padding: 96px 48px; }
+        }
+        .breaker-text {
+            font-family: var(--sans);
+            font-weight: 900;
+            font-size: clamp(1.8rem, 7vw, 5.5rem);
+            text-transform: uppercase;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+        }
+        .breaker.is-yellow {
+            background: var(--warn);
+        }
+        .breaker.is-dark {
+            background: var(--black);
+            color: var(--white);
+        }
+        .breaker small {
+            display: block;
+            margin-top: 20px;
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            opacity: 0.5;
+        }
+
+        .inc-list {
+            margin-top: 24px;
+        }
+        .inc {
+            background: var(--white);
+            border: 2px solid var(--black);
+            margin-bottom: -2px;
+        }
+        @media (min-width: 768px) {
+            .inc {
+                display: grid;
+                grid-template-columns: 160px 1fr 180px;
+            }
+        }
+        .inc-left {
+            background: var(--black);
+            color: var(--white);
+            padding: 14px 16px;
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .inc-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 18px 16px;
+            }
+        }
+        .sev {
+            font-family: var(--mono);
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            display: inline-block;
+        }
+        .sev-hi { background: var(--danger); color: var(--white); }
+        .sev-crit { background: var(--warn); color: var(--black); }
+        .inc-mid {
+            padding: 16px 18px;
+            border-left: 2px solid var(--black);
+            border-right: 2px solid var(--black);
+        }
+        @media (max-width: 767px) {
+            .inc-mid { border-left: none; border-right: none; }
+        }
+        .inc-mid h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+        }
+        .inc-mid p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .inc-right {
+            padding: 14px 18px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--dim);
+            line-height: 1.6;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .inc-right { border-top: none; }
+        }
+        .inc-right a { color: var(--danger); font-weight: 600; }
+
+        .qr-visual {
+            padding: 56px 20px;
+            text-align: center;
+            background: #e8e4db;
+            border-bottom: 3px solid var(--black);
+        }
+        @media (min-width: 768px) {
+            .qr-visual { padding: 80px 48px; }
+        }
+        .qr-box {
+            display: inline-block;
+            position: relative;
+            padding: 28px;
+            background: var(--white);
+            border: 4px solid var(--black);
+        }
+        .qr-box::before {
+            content: 'DO NOT SCAN';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            background: var(--danger);
+            color: var(--white);
+            font-family: var(--mono);
+            font-size: clamp(13px, 4vw, 18px);
+            font-weight: 700;
+            padding: 12px 24px;
+            white-space: nowrap;
+            z-index: 2;
+            letter-spacing: 0.12em;
+        }
+        .qr-box::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 6px,
+                rgba(204,0,0,0.12) 6px,
+                rgba(204,0,0,0.12) 8px
+            );
+            z-index: 1;
+        }
+        .qr-grid {
+            width: 120px;
+            height: 120px;
+            background:
+                linear-gradient(90deg, var(--black) 25%, transparent 25%, transparent 75%, var(--black) 75%),
+                linear-gradient(var(--black) 25%, transparent 25%, transparent 75%, var(--black) 75%);
+            background-size: 20px 20px;
+            opacity: 0.25;
+        }
+        @media (min-width: 768px) {
+            .qr-grid { width: 160px; height: 160px; background-size: 27px 27px; }
+        }
+        .qr-cap {
+            margin-top: 28px;
+            font-size: 17px;
+            font-weight: 700;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.45;
+        }
+        .qr-cap small {
+            display: block;
+            margin-top: 8px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .rules {
+            display: grid;
+            gap: 0;
+            margin-top: 28px;
+        }
+        @media (min-width: 600px) {
+            .rules { grid-template-columns: 1fr 1fr; }
+        }
+        @media (min-width: 900px) {
+            .rules { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        .rule {
+            background: var(--white);
+            border: 2px solid var(--black);
+            margin-bottom: -2px;
+            margin-right: -2px;
+            padding: 24px 20px;
+            display: flex;
+            gap: 16px;
+        }
+        .rule-n {
+            font-family: var(--mono);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--danger);
+            line-height: 1;
+            flex-shrink: 0;
+            width: 48px;
+        }
+        .rule h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+        .rule p {
+            font-size: 13px;
+            line-height: 1.55;
+            color: #555;
+        }
+        .dodont {
+            display: grid;
+            margin-top: 36px;
+            border: 3px solid var(--black);
+        }
+        @media (min-width: 600px) {
+            .dodont { grid-template-columns: 1fr 1fr; }
+        }
+        .dodont-col {
+            padding: 28px 24px;
+        }
+        .dodont-no {
+            background: var(--danger);
+            color: var(--white);
+        }
+        .dodont-yes {
+            background: #007a2f;
+            color: var(--white);
+        }
+        .dodont-col h3 {
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid rgba(255,255,255,0.25);
+        }
+        .dodont-col ul {
+            list-style: none;
+        }
+        .dodont-col li {
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 12px 0 12px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+        }
+        .dodont-col li:last-child { border-bottom: none; }
+        .dodont-col li::before {
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .dodont-no li::before { content: '✕'; }
+        .dodont-yes li::before { content: '✓'; }
+
+
+        .res-grid {
+            display: grid;
+            gap: 0;
+            margin-top: 28px;
+            border: 2px solid var(--black);
+        }
+        @media (min-width: 600px) {
+            .res-grid { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        .res-card {
+            background: var(--white);
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 2px solid var(--black);
+        }
+        .res-card:last-child { border-bottom: none; }
+        @media (min-width: 600px) {
+            .res-card {
+                border-bottom: none;
+                border-right: 2px solid var(--black);
+            }
+            .res-card:last-child { border-right: none; }
+        }
+        .res-card h4 {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+        }
+        .res-card p {
+            font-size: 14px;
+            line-height: 1.55;
+            color: #555;
+            flex: 1;
+            margin-bottom: 18px;
+        }
+        .res-card a {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--danger);
+            text-decoration: none;
+        }
+        .res-card a:hover { text-decoration: underline; }
+
+
+        .refs {
+            background: #ddd9cf;
+            padding: 36px 20px;
+            border-bottom: 3px solid var(--black);
+        }
+        @media (min-width: 768px) {
+            .refs { padding: 56px 48px; }
+        }
+        .refs h3 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 24px;
+        }
+        .ref-ol {
+            list-style: none;
+            counter-reset: ref;
+        }
+        .ref-ol li {
+            counter-increment: ref;
+            font-size: 12px;
+            line-height: 1.65;
+            padding: 10px 0 10px 40px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .ref-ol li::before {
+            content: '[' counter(ref) ']';
+            position: absolute;
+            left: 0;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--danger);
+        }
+        .ref-ol a {
+            color: var(--danger);
+            word-break: break-all;
+        }
+
+        .disclaim {
+            padding: 28px 20px;
+            background: #ccc9c0;
+            border-bottom: 3px solid var(--black);
+        }
+        @media (min-width: 768px) {
+            .disclaim { padding: 36px 48px; }
+        }
+        .disclaim p {
+            font-family: var(--mono);
+            font-size: 10px;
+            line-height: 1.75;
+            color: #555;
+            max-width: 800px;
+        }
+        .foot {
+            background: var(--black);
+            color: var(--white);
+            padding: 40px 20px calc(88px + var(--safe-b));
+        }
+        @media (min-width: 768px) {
+            .foot { padding: 56px 48px; }
+        }
+        .foot-grid {
+            display: grid;
+            gap: 36px;
+            margin-bottom: 36px;
+        }
+        @media (min-width: 768px) {
+            .foot-grid { grid-template-columns: 2fr 1fr 1fr; gap: 48px; }
+        }
+        .foot h4 {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #666;
+            margin-bottom: 14px;
+        }
+        .foot p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #999;
+        }
+        .foot a { color: #999; text-decoration: none; transition: color 0.15s; }
+        .foot a:hover { color: var(--white); }
+        .foot-bottom {
+            border-top: 1px solid #2a2a2a;
+            padding-top: 28px;
+            font-family: var(--mono);
+            font-size: 9px;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        @media (min-width: 768px) {
+            .foot-bottom { flex-direction: row; justify-content: space-between; }
+        }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        :focus-visible {
+            outline: 3px solid var(--danger);
+            outline-offset: 2px;
+        }
+        .tool-banner {
+            background: var(--black);
+            color: var(--white);
+            border-bottom: 4px solid var(--danger);
+            padding: 28px 20px;
+        }
+        @media (min-width: 768px) {
+            .tool-banner { padding: 40px 48px; }
+        }
+        .tool-banner .tool-redirect {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .tool-banner .label-sm {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--dim);
+        }
+        .tool-banner .safe-url {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: #00e676;
+            word-break: break-all;
+        }
+        @media (min-width: 768px) {
+            .tool-banner .safe-url { font-size: 24px; }
+        }
+
+        .tool-steps {
+            border-bottom: 3px solid var(--black);
+        }
+        .tool-step-bar {
+            display: flex;
+            border-bottom: 2px solid var(--black);
+            background: var(--white);
+            overflow-x: auto;
+        }
+        .tool-step-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 18px 16px;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-align: center;
+            border-right: 2px solid var(--black);
+            cursor: default;
+            color: var(--dim);
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+        .tool-step-tab:last-child { border-right: none; }
+        .tool-step-tab.active {
+            background: var(--black);
+            color: var(--white);
+        }
+        .tool-step-tab.done {
+            background: #007a2f;
+            color: var(--white);
+        }
+
+        .tool-pane {
+            display: none;
+            padding: 32px 20px 40px;
+            min-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .tool-pane { padding: 48px 48px 56px; }
+        }
+        .tool-pane.active { display: block; }
+
+        /* Step 1 — Upload */
+        .drop-zone {
+            border: 4px dashed #ccc;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            background: var(--white);
+            position: relative;
+        }
+        .drop-zone:hover,
+        .drop-zone.drag { border-color: var(--danger); background: #fff5f5; }
+        .drop-zone .dz-icon { font-size: 56px; opacity: 0.2; margin-bottom: 16px; }
+        .drop-zone h3 {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+        .drop-zone p { font-size: 14px; color: var(--dim); margin-bottom: 20px; }
+        .drop-zone input { display: none; }
+        .btn {
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 14px 32px;
+            border: 3px solid var(--black);
+            cursor: pointer;
+            transition: transform 0.08s, box-shadow 0.08s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 4px 4px 0 var(--black); }
+        .btn:active { transform: translateY(0); box-shadow: none; }
+        .btn-red { background: var(--danger); color: var(--white); }
+        .btn-green { background: #007a2f; color: var(--white); }
+        .btn-black { background: var(--black); color: var(--white); }
+        .btn-outline { background: transparent; color: var(--black); }
+
+        .upload-preview {
+            display: none;
+            margin-top: 24px;
+            text-align: center;
+        }
+        .upload-preview.show { display: block; }
+        .upload-preview img {
+            max-width: 260px;
+            max-height: 260px;
+            border: 4px solid var(--black);
+        }
+        .upload-preview .decoded-box {
+            margin-top: 18px;
+            background: #1a1a1a;
+            border: 2px solid var(--danger);
+            padding: 16px 20px;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .decoded-box .d-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--danger);
+            margin-bottom: 8px;
+        }
+        .decoded-box .d-url {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: #ff6b6b;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        .decoded-box .d-warn {
+            margin-top: 10px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--warn);
+            line-height: 1.5;
+        }
+        .spinner-wrap {
+            display: none;
+            padding: 32px;
+            text-align: center;
+        }
+        .spinner-wrap.show { display: block; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid var(--danger);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner-wrap p {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .tool-error {
+            display: none;
+            background: #fff0f0;
+            border: 2px solid var(--danger);
+            padding: 16px 20px;
+            margin-top: 18px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--danger);
+            text-align: center;
+        }
+        .tool-error.show { display: block; }
+
+        .step-actions {
+            margin-top: 28px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Step 2 — Analysis */
+        .analysis-grid {
+            display: grid;
+            gap: 0;
+            border: 3px solid var(--black);
+            margin-bottom: 28px;
+        }
+        @media (min-width: 700px) {
+            .analysis-grid { grid-template-columns: 1fr auto 1fr; }
+        }
+        .analysis-col {
+            padding: 28px 24px;
+            text-align: center;
+        }
+        .analysis-col h4 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 16px;
+        }
+        .analysis-col canvas {
+            image-rendering: pixelated;
+            border: 3px solid var(--black);
+            max-width: 100%;
+        }
+        .analysis-old { background: #fff0f0; }
+        .analysis-old h4 { color: var(--danger); }
+        .analysis-new { background: #e8f5ec; }
+        .analysis-new h4 { color: #007a2f; }
+        .analysis-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            padding: 16px;
+            border-left: 3px solid var(--black);
+            border-right: 3px solid var(--black);
+            font-family: var(--mono);
+            font-weight: 700;
+            background: var(--white);
+        }
+        @media (max-width: 699px) {
+            .analysis-arrow {
+                border-left: none;
+                border-right: none;
+                border-top: 3px solid var(--black);
+                border-bottom: 3px solid var(--black);
+            }
+        }
+
+        .overlay-section {
+            margin-top: 28px;
+        }
+        .overlay-section h4 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--danger);
+            margin-bottom: 14px;
+        }
+        .overlay-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 600px;
+            margin-bottom: 16px;
+        }
+        .overlay-wrap {
+            text-align: center;
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 24px;
+        }
+        .overlay-wrap canvas {
+            image-rendering: pixelated;
+            max-width: 100%;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 18px;
+            font-family: var(--mono);
+            font-size: 11px;
+        }
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-swatch {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--black);
+            display: inline-block;
+        }
+
+        .mod-count {
+            margin-top: 24px;
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 24px;
+            text-align: center;
+        }
+        .mod-count .mc-num {
+            font-family: var(--mono);
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--warn);
+        }
+        .mod-count .mc-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* Step 3 — Output */
+        .output-final {
+            text-align: center;
+        }
+        .output-final canvas {
+            image-rendering: pixelated;
+            border: 4px solid var(--black);
+        }
+        .output-meta {
+            margin-top: 18px;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: #007a2f;
+            font-weight: 700;
+        }
+        .output-instructions {
+            margin-top: 28px;
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 24px;
+            text-align: left;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .output-instructions h4 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--danger);
+            margin-bottom: 16px;
+        }
+        .output-instructions ol {
+            list-style: none;
+            counter-reset: oi;
+        }
+        .output-instructions li {
+            counter-increment: oi;
+            font-size: 14px;
+            line-height: 1.55;
+            padding: 12px 0 12px 40px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            color: #444;
+        }
+        .output-instructions li:last-child { border-bottom: none; }
+        .output-instructions li::before {
+            content: counter(oi);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 26px;
+            height: 26px;
+            background: var(--danger);
+            color: var(--white);
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .legal-box {
+            margin-top: 28px;
+            background: var(--warn);
+            border: 3px solid var(--black);
+            padding: 20px 24px;
+        }
+        .legal-box h4 {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+        .legal-box p {
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        @media print {
+            .mob-bar, .nav, .progress-bar, .ticker { display: none !important; }
+            body { padding-bottom: 0 !important; }
+            .hero { break-after: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="prog" aria-hidden="true"></div>
+
+<!-- TICKER -->
+<div class="ticker" role="alert" aria-live="polite">
+    <span class="ticker-inner">
+        ⚠ FBI ALERT: QR CODE FRAUD UP 587% — DO NOT SCAN QR CODES IN PUBLIC — $58M+ IN REPORTED LOSSES —
+        ⚠ FBI ALERT: QR CODE FRAUD UP 587% — DO NOT SCAN QR CODES IN PUBLIC — $58M+ IN REPORTED LOSSES —
+    </span>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+    <span class="hero-label">Public Safety Advisory — 2024</span>
+    <h1><em>Don't</em> Scan<br>QR Codes</h1>
+    <p class="hero-desc">
+        FBI-documented QR code fraud is up 587%. This is a public resource with full citations from FBI, FTC, IRS, and peer-reviewed research. Not paranoia — data.
+    </p>
+    <p class="hero-date">Updated <span id="date"></span></p>
+    <div class="hero-corner" aria-hidden="true">Zero<br>QR Codes<br>On This<br>Site</div>
+</header>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main">
+    <a href="#threat">The Threat</a>
+    <a href="#data">Data</a>
+    <a href="#incidents">Incidents</a>
+    <a href="#rules">Protection</a>
+    <a href="#resources">Resources</a>
+    <a href="#tool">⚙ Replacement Tool</a>
+    <a href="#refs">Sources</a>
+</nav>
+
+<main>
+
+    <!-- FBI ALERT -->
+    <div class="alert-box" role="alert">
+        <h2>FBI Public Service Announcement — I-011822-PSA</h2>
+        <p>
+            The FBI Internet Crime Complaint Center issued a formal warning on January 18, 2022: <strong>cybercriminals are tampering with QR codes</strong> to redirect victims to malicious sites that steal login credentials and financial information.
+        </p>
+        <span class="src">Source: <a href="https://ic3.gov/Media/Y2022/PSA220118">FBI IC3</a><sup><a href="#ref1">[1]</a></sup></span>
+    </div>
+
+    <!-- STATS -->
+    <section class="stats" id="data">
+        <div class="stats-row">
+            <div class="stat">
+                <div class="stat-val red">587%</div>
+                <div class="stat-txt">Increase in QR phishing attacks, 2023 vs 2022</div>
+                <div class="stat-cite">ReliaQuest Annual Report 2024<sup><a href="#ref2">[2]</a></sup></div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">$58M+</div>
+                <div class="stat-txt">Reported losses from QR code fraud in 2023</div>
+                <div class="stat-cite">FBI IC3 Annual Report<sup><a href="#ref3">[3]</a></sup></div>
+            </div>
+            <div class="stat">
+                <div class="stat-val">26%</div>
+                <div class="stat-txt">Of all phishing attacks now use QR codes as vectors</div>
+                <div class="stat-cite">Abnormal Security H2 2023<sup><a href="#ref4">[4]</a></sup></div>
+            </div>
+            <div class="stat accent">
+                <div class="stat-val">89M</div>
+                <div class="stat-txt">US smartphone users scanned a QR code in 2022</div>
+                <div class="stat-cite">Statista Digital Market<sup><a href="#ref5">[5]</a></sup></div>
+            </div>
+        </div>
+        <div class="swipe-hint">← Swipe for more →</div>
+    </section>
+
+    <!-- SECTION 01 — THREAT -->
+    <section class="sect" id="threat">
+        <div class="sect-head">
+            <div class="sect-idx">01</div>
+            <h2>What Is<br>The Threat</h2>
+        </div>
+        <div class="sect-body">
+            <p>
+                <strong>A QR code is a hyperlink you cannot read.</strong> Unlike a text URL — which you can inspect before clicking — a QR code is completely opaque. You are placing absolute trust in a small printed square to direct your phone to a safe destination.
+            </p>
+            <p>
+                That trust is being exploited at scale. Criminals place fraudulent QR stickers over legitimate ones on parking meters<sup><a href="#ref6">[6]</a></sup>, restaurant menus, EV charging stations<sup><a href="#ref7">[7]</a></sup>, and even official government mail.<sup><a href="#ref8">[8]</a></sup>
+            </p>
+            <p>
+                The attack is called <strong>"quishing"</strong> — QR phishing — and it is the fastest-growing vector in social engineering.
+            </p>
+
+            <div class="pull-quote">
+                <blockquote>
+                    A QR code is a URL you can't read. You wouldn't click a link from a stranger. Why would you scan one?
+                </blockquote>
+                <cite>
+                    — Crane Hassold, former FBI Cyber Behavioral Analyst<br>
+                    Wired, March 2023<sup><a href="#ref9">[9]</a></sup>
+                </cite>
+            </div>
+
+            <p>
+                The danger is compounded on mobile. Smaller screens, truncated URL bars, and fewer security indicators make spoofed domains nearly impossible to detect in real-time.<sup><a href="#ref10">[10]</a></sup>
+            </p>
+        </div>
+    </section>
+
+    <!-- ATTACK FLOW -->
+    <div class="flow">
+        <div class="flow-label">Fig. 1 — Typical Quishing Attack Flow</div>
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="flow-step-n">Step 01</div>
+                <p>Attacker prints fraudulent QR code sticker</p>
+            </div>
+            <div class="flow-arrow-down" aria-hidden="true">↓</div>
+            <div class="flow-step">
+                <div class="flow-step-n">Step 02</div>
+                <p>Sticker placed over legitimate QR in public space</p>
+            </div>
+            <div class="flow-arrow-down" aria-hidden="true">↓</div>
+            <div class="flow-step is-danger">
+                <div class="flow-step-n">Step 03</div>
+                <p>Victim scans code with smartphone camera</p>
+            </div>
+            <div class="flow-arrow-down" aria-hidden="true">↓</div>
+            <div class="flow-step is-danger">
+                <div class="flow-step-n">Step 04</div>
+                <p>Redirected to spoofed login or payment page</p>
+            </div>
+            <div class="flow-arrow-down" aria-hidden="true">↓</div>
+            <div class="flow-step is-end">
+                <div class="flow-step-n">Step 05</div>
+                <p>Credentials or payment info harvested</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BREAKER -->
+    <div class="breaker is-yellow">
+        <p class="breaker-text">You can't read a QR code.<br><span style="color:var(--danger)">Neither can your common sense.</span></p>
+    </div>
+
+    <!-- SECTION 02 — INCIDENTS -->
+    <section class="sect" id="incidents">
+        <div class="sect-head">
+            <div class="sect-idx">02</div>
+            <h2>Documented<br>Incidents</h2>
+        </div>
+        <div class="sect-body">
+            <p>Confirmed QR code fraud incidents from law enforcement, news investigations, and security research.</p>
+
+            <div class="inc-list">
+                <article class="inc">
+                    <div class="inc-left">
+                        <span>Dec 2021 — Austin TX</span>
+                        <span class="sev sev-hi">High</span>
+                    </div>
+                    <div class="inc-mid">
+                        <h4>Parking Meter Fraud</h4>
+                        <p>Fraudulent QR stickers on 29+ public parking meters directing users to fake payment site.</p>
+                    </div>
+                    <div class="inc-right">Credit card data stolen — <a href="#ref6">[6]</a></div>
+                </article>
+
+                <article class="inc">
+                    <div class="inc-left">
+                        <span>Mar 2022 — Netherlands</span>
+                        <span class="sev sev-crit">Critical</span>
+                    </div>
+                    <div class="inc-mid">
+                        <h4>Amsterdam Parking Machines</h4>
+                        <p>Fake QR codes on parking machines across Amsterdam redirect to phishing payment pages.</p>
+                    </div>
+                    <div class="inc-right">€50,000+ losses — <a href="#ref12">[12]</a></div>
+                </article>
+
+                <article class="inc">
+                    <div class="inc-left">
+                        <span>Jul 2022 — United Kingdom</span>
+                        <span class="sev sev-hi">High</span>
+                    </div>
+                    <div class="inc-mid">
+                        <h4>EV Charging Stations</h4>
+                        <p>Fraudulent QR stickers on electric vehicle charging stations across the UK.</p>
+                    </div>
+                    <div class="inc-right">RAC national warning — <a href="#ref7">[7]</a></div>
+                </article>
+
+                <article class="inc">
+                    <div class="inc-left">
+                        <span>Sep 2022 — Singapore</span>
+                        <span class="sev sev-crit">Critical</span>
+                    </div>
+                    <div class="inc-mid">
+                        <h4>Bubble Tea Shop Malware</h4>
+                        <p>Woman loses $20,000 after scanning QR code on shop door, unknowingly installing malware.</p>
+                    </div>
+                    <div class="inc-right">$20,000 SGD stolen — <a href="#ref13">[13]</a></div>
+                </article>
+
+                <article class="inc">
+                    <div class="inc-left">
+                        <span>Nov 2023 — USA National</span>
+                        <span class="sev sev-crit">Critical</span>
+                    </div>
+                    <div class="inc-mid">
+                        <h4>IRS Impersonation Letters</h4>
+                        <p>IRS impersonation letters with malicious QR codes sent to taxpayers nationwide.</p>
+                    </div>
+                    <div class="inc-right">IRS Alert IR-2023-169 — <a href="#ref8">[8]</a></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- QR VISUAL -->
+    <div class="qr-visual">
+        <div class="qr-box">
+            <div class="qr-grid" aria-hidden="true"></div>
+        </div>
+        <p class="qr-cap">
+            You have no idea where this leads.
+            <small>Neither does your phone. That's the entire problem.</small>
+        </p>
+    </div>
+
+    <!-- SECTION 03 — RULES -->
+    <section class="sect" id="rules">
+        <div class="sect-head">
+            <div class="sect-idx">03</div>
+            <h2>Protection<br>Rules</h2>
+        </div>
+        <div class="sect-body">
+            <div class="rules">
+                <div class="rule">
+                    <div class="rule-n">01</div>
+                    <div>
+                        <h4>Never scan QR codes in public</h4>
+                        <p>Parking meters, posters, bus stops, restaurants. If you didn't generate it yourself, don't scan it.</p>
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-n">02</div>
+                    <div>
+                        <h4>Inspect before you tap</h4>
+                        <p>Read the full domain in the preview. Watch for typosquatting: "paypa1.com" vs "paypal.com"</p>
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-n">03</div>
+                    <div>
+                        <h4>Check for sticker overlays</h4>
+                        <p>Physically inspect QR codes. If it looks like a sticker on top of another code, it's fraud.</p>
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-n">04</div>
+                    <div>
+                        <h4>Never enter credentials via QR</h4>
+                        <p>No bank, government, or payment processor will ever ask you to log in via QR code.</p>
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-n">05</div>
+                    <div>
+                        <h4>Disable auto-open</h4>
+                        <p>Configure your camera app to require manual confirmation before opening scanned URLs.</p>
+                    </div>
+                </div>
+                <div class="rule">
+                    <div class="rule-n">06</div>
+                    <div>
+                        <h4>Report suspicious codes</h4>
+                        <p>File reports with FBI IC3 at ic3.gov and FTC at reportfraud.ftc.gov.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dodont">
+                <div class="dodont-col dodont-no">
+                    <h3>✕ Don't</h3>
+                    <ul>
+                        <li>Scan QR codes on public posters or stickers</li>
+                        <li>Enter passwords after scanning a QR code</li>
+                        <li>Trust QR codes on surfaces you don't control</li>
+                        <li>Use QR for payments in unverified contexts</li>
+                        <li>Scan QR codes from unsolicited emails</li>
+                    </ul>
+                </div>
+                <div class="dodont-col dodont-yes">
+                    <h3>✓ Do</h3>
+                    <ul>
+                        <li>Type URLs manually into your browser</li>
+                        <li>Use official apps for banking and payments</li>
+                        <li>Physically inspect codes for overlays</li>
+                        <li>Preview URLs before opening after scan</li>
+                        <li>Report suspicious QR codes to IC3.gov</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BREAKER 2 -->
+    <div class="breaker is-dark">
+        <p class="breaker-text">If you can't read it,<br><span style="color:var(--danger)">don't scan it.</span></p>
+        <small>It really is that simple.</small>
+    </div>
+
+    <!-- SECTION 04 — RESOURCES -->
+    <section class="sect" id="resources">
+        <div class="sect-head">
+            <div class="sect-idx">04</div>
+            <h2>Official<br>Resources</h2>
+        </div>
+        <div class="sect-body">
+            <p>If you've been victimized or want to report a suspicious QR code:</p>
+
+            <div class="res-grid">
+                <div class="res-card">
+                    <h4>FBI IC3</h4>
+                    <p>Internet Crime Complaint Center. File complaints for any internet-facilitated criminal activity including QR fraud.</p>
+                    <a href="https://ic3.gov">→ ic3.gov</a>
+                </div>
+                <div class="res-card">
+                    <h4>FTC</h4>
+                    <p>Federal Trade Commission. Report fraud, scams, and deceptive business practices.</p>
+                    <a href="https://reportfraud.ftc.gov">→ reportfraud.ftc.gov</a>
+                </div>
+                <div class="res-card">
+                    <h4>CISA</h4>
+                    <p>Cybersecurity & Infrastructure Security Agency. National cybersecurity advisories and best practices.</p>
+                    <a href="https://cisa.gov">→ cisa.gov</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="tool-banner" id="tool">
+        <div class="sect-idx" style="color: var(--warn); margin-bottom: 12px;">⚙ Counter-Fraud Tool</div>
+        <h2 style="font-weight:900; font-size: clamp(1.8rem,6vw,3.6rem); text-transform:uppercase; line-height:0.92; letter-spacing:-0.03em; margin-bottom:20px;">
+            Replace Scam<br>QR Codes
+        </h2>
+        <p style="color:#999; font-size:15px; max-width:560px; line-height:1.65; margin-bottom:24px;">
+            Found a suspicious QR code in the wild? Upload it here. This tool decodes what it links to, generates a <strong style="color:#fff">safe replacement</strong> pointing to this PSA page, and shows you an overlay map of exactly which modules differ — so you can print a sticker replacement that protects the next person.
+        </p>
+        <div class="tool-redirect">
+            <span class="label-sm">All replacements redirect to →</span>
+            <span class="safe-url" id="safeUrlDisplay"></span>
+        </div>
+    </div>
+
+    <div class="tool-steps">
+        <div class="tool-step-bar">
+            <div class="tool-step-tab active" id="tab1">① Upload</div>
+            <div class="tool-step-tab" id="tab2">② Analyze</div>
+            <div class="tool-step-tab" id="tab3">③ Replace</div>
+        </div>
+
+        <!-- STEP 1: Upload -->
+        <div class="tool-pane active" id="pane1">
+            <div class="drop-zone" id="dropZone">
+                <div class="dz-icon" aria-hidden="true">📷</div>
+                <h3>Upload Suspicious QR Code</h3>
+                <p>Drag & drop a photo, or click to browse.<br>JPG, PNG, screenshot — any image with a QR code.</p>
+                <button class="btn btn-red" type="button" id="browseBtn">Choose Image</button>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="spinner-wrap" id="spinner1">
+                <div class="spinner"></div>
+                <p>Scanning for QR code…</p>
+            </div>
+
+            <div class="tool-error" id="err1"></div>
+
+            <div class="upload-preview" id="preview1">
+                <img id="previewImg" src="" alt="Uploaded QR code">
+                <div class="decoded-box">
+                    <div class="d-label">⚠ This QR code links to:</div>
+                    <div class="d-url" id="decodedUrl"></div>
+                    <div class="d-warn" id="decodedWarn"></div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-black" id="toStep2" type="button">Analyze & Generate Replacement →</button>
+                    <button class="btn btn-outline" id="resetBtn" type="button">↻ Upload Different</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Analysis -->
+        <div class="tool-pane" id="pane2">
+            <div class="analysis-grid">
+                <div class="analysis-col analysis-old">
+                    <h4>⚠ Original (Malicious)</h4>
+                    <canvas id="canvasOld" width="1" height="1"></canvas>
+                    <p style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--danger);word-break:break-all;" id="labelOldUrl"></p>
+                </div>
+                <div class="analysis-arrow" aria-hidden="true">→</div>
+                <div class="analysis-col analysis-new">
+                    <h4>✓ Replacement (Safe)</h4>
+                    <canvas id="canvasNew" width="1" height="1"></canvas>
+                    <p style="margin-top:10px;font-family:var(--mono);font-size:11px;color:#007a2f;word-break:break-all;" id="labelNewUrl"></p>
+                </div>
+            </div>
+
+            <div class="overlay-section">
+                <h4>Overlay Diff Map — Modules That Change</h4>
+                <p>
+                    The overlay below shows the original QR code with all <strong>changed modules</strong> highlighted.
+                    <span style="color:#007a2f;font-weight:700;">Green</span> = modules that need to be <strong>added</strong> (white→black).
+                    <span style="color:var(--danger);font-weight:700;">Red</span> = modules that need to be <strong>removed</strong> (black→white).
+                    Black = unchanged dark modules.
+                </p>
+                <div class="overlay-wrap">
+                    <canvas id="canvasOverlay" width="1" height="1"></canvas>
+                    <div class="legend">
+                        <span><span class="legend-swatch" style="background:#000;"></span> Unchanged (dark)</span>
+                        <span><span class="legend-swatch" style="background:#fff;border-color:#ccc;"></span> Unchanged (light)</span>
+                        <span><span class="legend-swatch" style="background:#00c853;"></span> Add (fill black)</span>
+                        <span><span class="legend-swatch" style="background:#ff1744;"></span> Remove (make white)</span>
+                    </div>
+                </div>
+                <div class="mod-count">
+                    <div class="mc-num" id="modCountNum">—</div>
+                    <div class="mc-label">Total modules changed</div>
+                </div>
+            </div>
+
+            <div class="step-actions" style="margin-top:28px;">
+                <button class="btn btn-green" id="toStep3" type="button">Generate Printable Replacement →</button>
+                <button class="btn btn-outline" id="backStep1" type="button">← Back</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Output -->
+        <div class="tool-pane" id="pane3">
+            <div class="output-final">
+                <p style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#007a2f;background:#e8f5ec;display:inline-block;padding:8px 20px;border:2px solid #007a2f;margin-bottom:20px;">✓ Safe Replacement Ready</p>
+                <br>
+                <canvas id="canvasFinal" width="1" height="1"></canvas>
+                <div class="output-meta">→ <span id="finalUrl"></span></div>
+            </div>
+
+            <div class="output-instructions">
+                <h4>How to Deploy This Replacement</h4>
+                <ol>
+                    <li><strong>Photograph the original</strong> fraudulent QR code first — you'll need this as evidence when you file a report</li>
+                    <li><strong>Report it</strong> to local law enforcement and file a complaint at <a href="https://ic3.gov" style="color:var(--danger);font-weight:700;">FBI IC3</a></li>
+                    <li><strong>Download</strong> the replacement QR below and print it at the same physical size as the original</li>
+                    <li>Use a <strong>weather-resistant adhesive label</strong> for outdoor placements (parking meters, charging stations, etc.)</li>
+                    <li><strong>Cover the fraudulent code</strong> with the replacement — anyone who scans it will now arrive at this public safety warning instead</li>
+                </ol>
+            </div>
+
+            <div class="step-actions">
+                <a class="btn btn-green" id="downloadBtn" download="safe-qr-replacement.png" href="#">↓ Download PNG</a>
+                <button class="btn btn-black" id="printBtn" type="button">⎙ Print Sticker</button>
+                <button class="btn btn-outline" id="startOver" type="button">↻ Start Over</button>
+            </div>
+
+            <div class="legal-box">
+                <h4>⚠ Legal Notice</h4>
+                <p>
+                    <strong>Always report fraudulent QR codes to law enforcement before covering them.</strong> Photograph the original as evidence. Only replace codes you have reasonable belief are fraudulent (e.g., obvious sticker overlays on public infrastructure). Do not tamper with legitimate business QR codes. You are responsible for compliance with local laws. This tool is for public safety purposes only.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- REFERENCES -->
+    <div class="refs" id="refs">
+        <h3>References & Citations</h3>
+        <ol class="ref-ol">
+            <li id="ref1">FBI IC3. "Cybercriminals Tampering with QR Codes to Steal Victim Funds." PSA I-011822-PSA. January 18, 2022. <a href="https://ic3.gov/Media/Y2022/PSA220118">ic3.gov</a></li>
+            <li id="ref2">ReliaQuest Threat Research. "Annual Cyber Threat Report 2024: Quishing Attacks Increase 587%." February 2024.</li>
+            <li id="ref3">FBI IC3. "2023 Internet Crime Report." March 2024. <a href="https://ic3.gov">ic3.gov</a></li>
+            <li id="ref4">Abnormal Security. "H2 2023 Email Threat Report: QR Code Phishing Surges." January 2024.</li>
+            <li id="ref5">Statista Research Department. "Smartphone users scanning QR codes in the United States." Statista Digital Market Outlook, 2023.</li>
+            <li id="ref6">City of Austin Police Department. "Fraudulent QR Codes on Public Parking Meters." Public Advisory, December 2021.</li>
+            <li id="ref7">BBC News. "Electric car chargers being used in QR code scam." July 17, 2022. <a href="https://bbc.co.uk/news/technology-62156670">bbc.co.uk</a></li>
+            <li id="ref8">Internal Revenue Service. "IRS warns taxpayers of new QR code scam via snail mail." IR-2023-169. September 2023. <a href="https://irs.gov">irs.gov</a></li>
+            <li id="ref9">Newman, L.H. "QR Code Scams Are on the Rise." Wired. March 15, 2023.</li>
+            <li id="ref10">Felt, A.P., Wagner, D. "Phishing on Mobile Devices." IEEE Workshop on Web 2.0 Security & Privacy, 2011.</li>
+            <li id="ref11">NIST. "Cybersecurity Framework v2.0." February 2024. <a href="https://nist.gov/cyberframework">nist.gov</a></li>
+            <li id="ref12">NOS Nieuws. "Politie waarschuwt voor QR-codes op parkeerautomaten." March 2022. [Dutch National Police]</li>
+            <li id="ref13">The Straits Times. "Woman loses $20,000 after scanning QR code to fill in 'survey' at bubble tea shop." September 2022.</li>
+            <li id="ref14">FTC. "Scammers hide harmful links in QR codes to steal your information." Consumer Alert. December 2023. <a href="https://consumer.ftc.gov">consumer.ftc.gov</a></li>
+        </ol>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaim">
+        <p>
+            <strong>DISCLAIMER:</strong> DontScanQRCodes.com is an independent public safety awareness project. It is not affiliated with, endorsed by, or operated by any government agency, law enforcement body, or commercial entity. All information is sourced from publicly available documents, peer-reviewed research, and credible news reporting. Citations are provided for all factual claims. This site does not collect personal data, use tracking cookies, or serve advertisements. Content is provided for educational purposes under fair use (17 U.S.C. § 107).
+        </p>
+        <p style="margin-top: 14px;">
+            <strong>This website intentionally contains zero functional QR codes.</strong>
+        </p>
+    </div>
+
+
+
+</main>
+
+<!-- FOOTER -->
+<footer class="foot">
+    <div class="foot-grid">
+        <div>
+            <h4>About This Project</h4>
+            <p>
+                DontScanQRCodes.com is a volunteer-maintained public awareness project. We are not anti-technology — we are anti-blind-trust. The gap between QR code adoption and QR code literacy is a chasm, and people are falling into it daily.
+            </p>
+        </div>
+        <div>
+            <h4>Share This Page</h4>
+            <p>
+                Print it. Email the URL. Tell your parents and grandparents. Post it in your office kitchen.
+            </p>
+            <p style="margin-top: 12px;"><strong style="color: #fff; font-family: var(--mono); font-size: 13px; letter-spacing: 0.02em;">dontscanqrcodes.com</strong></p>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <p>
+                Corrections, additions, press:<br>
+                <a href="mailto:info@sadbath.dev">info@sadbath.dev</a>
+            </p>
+            <p style="margin-top: 8px; font-family: var(--mono); font-size: 10px; color: #555;">PGP key available on request.</p>
+        </div>
+    </div>
+    <div class="foot-bottom">
+        <span>© 2024 — No rights reserved. Copy freely.</span>
+        <span>No cookies · No tracking · No QR codes</span>
+        <span>Plain HTML <span class="blink">▌</span></span>
+    </div>
+</footer>
+
+<!-- MOBILE BAR -->
+<nav class="mob-bar" aria-label="Mobile">
+    <a href="#threat"><span class="ico">⚠</span>Threat</a>
+    <a href="#data"><span class="ico">▤</span>Data</a>
+    <a href="#incidents"><span class="ico">◉</span>Cases</a>
+    <a href="#rules"><span class="ico">☰</span>Protect</a>
+    <a href="#tool"><span class="ico">⚙</span>Tool</a>
+</nav>
+
+<!-- jsQR for decoding -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+<script>
+(function() {
+    'use strict';
+  
+    setTimeout(function() {
+        var rickrollUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1';
+        
+        // Create overlay first
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999999;display:flex;align-items:center;justify-content:center;flex-direction:column';
+        
+        // Add message
+        var msg = document.createElement('div');
+        msg.style.cssText = 'color:#fff;font-size:24px;font-family:Arial,sans-serif;text-align:center;margin-bottom:20px';
+        msg.innerHTML = '🎵 Never Gonna Give You Up 🎵<br><br>Redirecting...';
+        overlay.appendChild(msg);
+        
+        // Add video iframe with corrected parameters
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width:80%;max-width:800px;height:450px;border:none';
+        iframe.src = 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        overlay.appendChild(iframe);
+        
+        // Add close button (that rickrolls harder)
+        var closeBtn = document.createElement('button');
+        closeBtn.textContent = '✕ Close';
+        closeBtn.style.cssText = 'position:absolute;top:20px;right:20px;background:#ff0000;color:#fff;border:none;padding:10px 20px;font-size:16px;cursor:pointer;border-radius:5px';
+        closeBtn.addEventListener('click', function() {
+            // Clicking close just opens more rickrolls
+            window.open(rickrollUrl, '_blank');
+            window.open(rickrollUrl, '_blank');
+        });
+        overlay.appendChild(closeBtn);
+        
+        document.body.appendChild(overlay);
+        
+        // Fallback: If iframe doesn't work after 3 seconds, redirect
+        setTimeout(function() {
+            // Check if video is playing by trying to access iframe
+            // If there's an error, redirect instead
+            try {
+                var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            } catch(e) {
+                // Cross-origin error means it's probably working
+                return;
+            }
+            // If we can access it, something's wrong - redirect
+            window.location.href = rickrollUrl;
+        }, 3000);
+        
+    }, 60000); // 60 seconds
+
+    var SAFE_URL = 'https://sadbath.github.io/DontScanQRCodes';
+    document.getElementById('safeUrlDisplay').textContent = SAFE_URL;
+
+    document.getElementById('date').textContent = new Date().toLocaleDateString('en-US', {
+        month: 'long', day: 'numeric', year: 'numeric'
+    });
+
+    var prog = document.getElementById('prog');
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(function() {
+                var s = window.scrollY;
+                var h = document.documentElement.scrollHeight - window.innerHeight;
+                prog.style.width = (h > 0 ? (s / h) * 100 : 0) + '%';
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+
+    var links = document.querySelectorAll('.mob-bar a, .nav a');
+    var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+            if (e.isIntersecting) {
+                var id = e.target.id;
+                links.forEach(function(l) {
+                    l.classList.toggle('is-active', l.getAttribute('href') === '#' + id);
+                });
+            }
+        });
+    }, { rootMargin: '-25% 0px -55% 0px' });
+    document.querySelectorAll('section[id], .stats[id], .refs[id], .tool-banner[id]').forEach(function(s) {
+        obs.observe(s);
+    });
+
+    document.querySelectorAll('.mob-bar a').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            var t = document.querySelector(this.getAttribute('href'));
+            if (t) window.scrollTo({ top: t.offsetTop - 16, behavior: 'smooth' });
+        });
+    });
+
+    document.querySelectorAll('.mob-bar a, .rule, .inc').forEach(function(el) {
+        el.addEventListener('touchstart', function() { el.style.transform = 'scale(0.97)'; }, { passive: true });
+        el.addEventListener('touchend', function() { el.style.transform = ''; }, { passive: true });
+        el.addEventListener('touchcancel', function() { el.style.transform = ''; }, { passive: true });
+    });
+
+    var QRGen = (function() {
+
+        // Galois field GF(256) with polynomial 0x11D
+        var EXP = new Uint8Array(512);
+        var LOG = new Uint8Array(256);
+        (function() {
+            var x = 1;
+            for (var i = 0; i < 255; i++) {
+                EXP[i] = x;
+                LOG[x] = i;
+                x <<= 1;
+                if (x & 256) x ^= 0x11D;
+            }
+            for (var i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+        })();
+
+        function gfMul(a, b) {
+            if (a === 0 || b === 0) return 0;
+            return EXP[LOG[a] + LOG[b]];
+        }
+
+        function polyMul(a, b) {
+            var r = new Uint8Array(a.length + b.length - 1);
+            for (var i = 0; i < a.length; i++)
+                for (var j = 0; j < b.length; j++)
+                    r[i + j] ^= gfMul(a[i], b[j]);
+            return r;
+        }
+
+        function generatorPoly(n) {
+            var g = new Uint8Array([1]);
+            for (var i = 0; i < n; i++)
+                g = polyMul(g, new Uint8Array([1, EXP[i]]));
+            return g;
+        }
+
+        function eccDivide(data, gen) {
+            var r = new Uint8Array(data.length + gen.length - 1);
+            r.set(data);
+            for (var i = 0; i < data.length; i++) {
+                var c = r[i];
+                if (c !== 0)
+                    for (var j = 0; j < gen.length; j++)
+                        r[i + j] ^= gfMul(gen[j], c);
+            }
+            return r.slice(data.length);
+        }
+
+        // Version info: [version, totalCodewords, eccCodewordsPerBlock, numBlocks]
+        // ECC Level L only for simplicity
+        var VERSIONS = [
+            null,
+            [1,  26,  7, 1],
+            [2,  44, 10, 1],
+            [3,  70, 15, 1],
+            [4, 100, 20, 1],
+            [5, 134, 26, 1],
+            [6, 172, 18, 2],
+            [7, 196, 20, 2],
+            [8, 242, 24, 2],
+            [9, 292, 30, 2],
+            [10,346, 18, 4],
+            [11,404, 20, 4],
+            [12,466, 24, 4],
+            [13,532, 26, 4],
+            [14,581, 30, 4],
+            [15,655, 22, 6],
+            [16,733, 24, 6],
+            [17,815, 28, 6],
+            [18,901, 30, 6],
+            [19,991, 26, 7],
+            [20,1085,28, 8],
+        ];
+
+        function dataCapacity(ver) {
+            var v = VERSIONS[ver];
+            var eccTotal = v[2] * v[3];
+            return v[1] - eccTotal;
+        }
+
+        function chooseVersion(byteLen) {
+            for (var v = 1; v <= 20; v++) {
+                var ccBits = v <= 9 ? 8 : 16;
+                var totalBits = 4 + ccBits + byteLen * 8;
+                var cap = dataCapacity(v) * 8;
+                if (totalBits <= cap) return v;
+            }
+            return -1;
+        }
+
+        function size(ver) { return ver * 4 + 17; }
+
+        function encodeData(text) {
+            var bytes = [];
+            for (var i = 0; i < text.length; i++) {
+                var c = text.charCodeAt(i);
+                if (c < 128) bytes.push(c);
+                else if (c < 2048) {
+                    bytes.push(0xC0 | (c >> 6));
+                    bytes.push(0x80 | (c & 0x3F));
+                } else {
+                    bytes.push(0xE0 | (c >> 12));
+                    bytes.push(0x80 | ((c >> 6) & 0x3F));
+                    bytes.push(0x80 | (c & 0x3F));
+                }
+            }
+
+            var ver = chooseVersion(bytes.length);
+            if (ver < 0) throw new Error('Data too long');
+
+            var ccBits = ver <= 9 ? 8 : 16;
+            var dataCap = dataCapacity(ver);
+
+            var bits = [];
+            function pushBits(val, len) {
+                for (var i = len - 1; i >= 0; i--)
+                    bits.push((val >> i) & 1);
+            }
+
+            pushBits(4, 4);
+            pushBits(bytes.length, ccBits);
+            for (var i = 0; i < bytes.length; i++)
+                pushBits(bytes[i], 8);
+
+            var rem = dataCap * 8 - bits.length;
+            pushBits(0, Math.min(4, rem));
+
+            while (bits.length % 8 !== 0) bits.push(0);
+
+            var padBytes = [0xEC, 0x11];
+            var pi = 0;
+            while (bits.length < dataCap * 8) {
+                pushBits(padBytes[pi % 2], 8);
+                pi++;
+            }
+
+            var dataBytes = new Uint8Array(dataCap);
+            for (var i = 0; i < dataCap; i++) {
+                var b = 0;
+                for (var j = 0; j < 8; j++)
+                    b = (b << 1) | bits[i * 8 + j];
+                dataBytes[i] = b;
+            }
+
+            return { version: ver, data: dataBytes };
+        }
+
+        function makeCodewords(ver, dataBytes) {
+            var v = VERSIONS[ver];
+            var eccPerBlock = v[2];
+            var numBlocks = v[3];
+            var totalData = dataCapacity(ver);
+            var blockSize = Math.floor(totalData / numBlocks);
+            var largerBlocks = totalData % numBlocks;
+
+            var gen = generatorPoly(eccPerBlock);
+            var dataBlocks = [];
+            var eccBlocks = [];
+            var offset = 0;
+
+            for (var i = 0; i < numBlocks; i++) {
+                var sz = blockSize + (i >= numBlocks - largerBlocks ? 1 : 0);
+                var block = dataBytes.slice(offset, offset + sz);
+                offset += sz;
+                dataBlocks.push(block);
+                eccBlocks.push(eccDivide(block, gen));
+            }
+
+            var result = [];
+            var maxDataLen = blockSize + (largerBlocks > 0 ? 1 : 0);
+            for (var i = 0; i < maxDataLen; i++)
+                for (var j = 0; j < numBlocks; j++)
+                    if (i < dataBlocks[j].length)
+                        result.push(dataBlocks[j][i]);
+            for (var i = 0; i < eccPerBlock; i++)
+                for (var j = 0; j < numBlocks; j++)
+                    result.push(eccBlocks[j][i]);
+
+            return result;
+        }
+
+        var ALIGN_POS = [
+            null, [], [6,18], [6,22], [6,26], [6,30], [6,34],
+            [6,22,38], [6,24,42], [6,26,46], [6,28,50],
+            [6,30,54], [6,32,58], [6,34,62], [6,26,46,66],
+            [6,26,48,70], [6,26,50,74], [6,30,54,78],
+            [6,30,56,82], [6,30,58,86], [6,34,62,90]
+        ];
+
+        function makeMatrix(ver) {
+            var s = size(ver);
+            var m = [];
+            for (var i = 0; i < s; i++) {
+                m[i] = new Uint8Array(s);
+            }
+            return m;
+        }
+
+        function setFunctionPatterns(m, ver) {
+            var s = m.length;
+
+            function setModule(r, c, dark) {
+                if (r >= 0 && r < s && c >= 0 && c < s)
+                    m[r][c] = dark ? 1 : 2;
+            }
+
+            function finderPattern(row, col) {
+                for (var r = -1; r <= 7; r++)
+                    for (var c = -1; c <= 7; c++) {
+                        var dark = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                                   (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                                   (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+                        setModule(row + r, col + c, dark);
+                    }
+            }
+            finderPattern(0, 0);
+            finderPattern(0, s - 7);
+            finderPattern(s - 7, 0);
+
+            for (var i = 8; i < s - 8; i++) {
+                setModule(6, i, i % 2 === 0);
+                setModule(i, 6, i % 2 === 0);
+            }
+
+            if (ver >= 2) {
+                var pos = ALIGN_POS[ver];
+                for (var i = 0; i < pos.length; i++) {
+                    for (var j = 0; j < pos.length; j++) {
+                        var cr = pos[i], cc = pos[j];
+                        if (m[cr][cc] !== 0) continue;
+                        for (var r = -2; r <= 2; r++)
+                            for (var c = -2; c <= 2; c++) {
+                                var dark = Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0);
+                                setModule(cr + r, cc + c, dark);
+                            }
+                    }
+                }
+            }
+
+            setModule(s - 8, 8, true);
+
+            for (var i = 0; i < 8; i++) {
+                if (m[8][i] === 0) m[8][i] = 2;
+                if (m[8][s - 1 - i] === 0) m[8][s - 1 - i] = 2;
+                if (m[i][8] === 0) m[i][8] = 2;
+                if (m[s - 1 - i][8] === 0) m[s - 1 - i][8] = 2;
+            }
+            if (m[8][8] === 0) m[8][8] = 2;
+
+            if (ver >= 7) {
+                for (var i = 0; i < 6; i++)
+                    for (var j = 0; j < 3; j++) {
+                        if (m[i][s - 11 + j] === 0) m[i][s - 11 + j] = 2;
+                        if (m[s - 11 + j][i] === 0) m[s - 11 + j][i] = 2;
+                    }
+            }
+        }
+
+        function placeData(m, codewords) {
+            var s = m.length;
+            var bitIdx = 0;
+            var totalBits = codewords.length * 8;
+
+            var upward = true;
+            for (var col = s - 1; col >= 1; col -= 2) {
+                if (col === 6) col = 5;
+                for (var cnt = 0; cnt < s; cnt++) {
+                    var row = upward ? s - 1 - cnt : cnt;
+                    for (var dc = 0; dc < 2; dc++) {
+                        var c = col - dc;
+                        if (m[row][c] !== 0) continue;
+                        var dark = false;
+                        if (bitIdx < totalBits) {
+                            dark = ((codewords[bitIdx >> 3] >> (7 - (bitIdx & 7))) & 1) === 1;
+                            bitIdx++;
+                        }
+                        m[row][c] = dark ? 1 : 2;
+                    }
+                }
+                upward = !upward;
+            }
+        }
+
+        var MASK_FNS = [
+            function(r, c) { return (r + c) % 2 === 0; },
+            function(r, c) { return r % 2 === 0; },
+            function(r, c) { return c % 3 === 0; },
+            function(r, c) { return (r + c) % 3 === 0; },
+            function(r, c) { return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0; },
+            function(r, c) { return (r * c) % 2 + (r * c) % 3 === 0; },
+            function(r, c) { return ((r * c) % 2 + (r * c) % 3) % 2 === 0; },
+            function(r, c) { return ((r + c) % 2 + (r * c) % 3) % 2 === 0; },
+        ];
+
+        function applyMask(m, maskIdx) {
+            var s = m.length;
+            var fn = MASK_FNS[maskIdx];
+            var r = [];
+            for (var i = 0; i < s; i++) r[i] = new Uint8Array(m[i]);
+            for (var row = 0; row < s; row++)
+                for (var col = 0; col < s; col++)
+                    if (r[row][col] !== 0) {
+                    }
+            return r;
+        }
+
+        function generate(text) {
+            var enc = encodeData(text);
+            var ver = enc.version;
+            var cw = makeCodewords(ver, enc.data);
+            var s = size(ver);
+
+            var m = makeMatrix(ver);
+            setFunctionPatterns(m, ver);
+
+            var isFunc = [];
+            for (var i = 0; i < s; i++) {
+                isFunc[i] = new Uint8Array(s);
+                for (var j = 0; j < s; j++)
+                    isFunc[i][j] = m[i][j] !== 0 ? 1 : 0;
+            }
+
+            placeData(m, cw);
+
+            var bestMask = 0;
+            var bestM = null;
+            var bestScore = Infinity;
+
+            for (var mi = 0; mi < 8; mi++) {
+                var masked = [];
+                for (var i = 0; i < s; i++) {
+                    masked[i] = new Uint8Array(m[i]);
+                    for (var j = 0; j < s; j++) {
+                        if (!isFunc[i][j] && MASK_FNS[mi](i, j)) {
+                            masked[i][j] = masked[i][j] === 1 ? 2 : 1;
+                        }
+                    }
+                }
+
+                var formatBits = getFormatBits(0, mi);
+                writeFormatBits(masked, s, formatBits);
+
+                if (ver >= 7) writeVersionBits(masked, s, ver);
+
+                var score = penaltyScore(masked, s);
+                if (score < bestScore) {
+                    bestScore = score;
+                    bestMask = mi;
+                    bestM = masked;
+                }
+            }
+
+            var grid = [];
+            for (var i = 0; i < s; i++) {
+                grid[i] = [];
+                for (var j = 0; j < s; j++)
+                    grid[i][j] = bestM[i][j] === 1;
+            }
+
+            return { grid: grid, size: s, version: ver };
+        }
+
+        var FORMAT_INFO = [
+            0x77C4, 0x72F3, 0x7DAA, 0x789D, 0x662F, 0x6318, 0x6C41, 0x6976,
+            0x5412, 0x5125, 0x5E7C, 0x5B4B, 0x45F9, 0x40CE, 0x4F97, 0x4AA0,
+            0x355F, 0x3068, 0x3F31, 0x3A06, 0x24B4, 0x2183, 0x2EDA, 0x2BED,
+            0x1689, 0x13BE, 0x1CE7, 0x19D0, 0x0762, 0x0255, 0x0D0C, 0x083B,
+        ];
+
+        function getFormatBits(eccLevel, mask) {
+            var idx = eccLevel * 8 + mask;
+            return FORMAT_INFO[idx];
+        }
+
+        function writeFormatBits(m, s, bits) {
+            var positions1 = [
+                [8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],
+                [7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]
+            ];
+            var positions2 = [
+                [s-1,8],[s-2,8],[s-3,8],[s-4,8],[s-5,8],[s-6,8],[s-7,8],
+                [8,s-8],[8,s-7],[8,s-6],[8,s-5],[8,s-4],[8,s-3],[8,s-2],[8,s-1]
+            ];
+            for (var i = 0; i < 15; i++) {
+                var bit = (bits >> (14 - i)) & 1;
+                m[positions1[i][0]][positions1[i][1]] = bit ? 1 : 2;
+                m[positions2[i][0]][positions2[i][1]] = bit ? 1 : 2;
+            }
+        }
+
+        var VERSION_INFO_TABLE = [
+            0, 0, 0, 0, 0, 0, 0,
+            0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0BBF6, 0x0C762,
+            0x0D847, 0x0E60D, 0x0F928, 0x10B78, 0x1145D, 0x12A17,
+            0x13532, 0x149A6,
+        ];
+
+        function writeVersionBits(m, s, ver) {
+            if (ver < 7) return;
+            var bits = VERSION_INFO_TABLE[ver];
+            for (var i = 0; i < 18; i++) {
+                var bit = (bits >> i) & 1;
+                var r = Math.floor(i / 3);
+                var c = s - 11 + (i % 3);
+                m[r][c] = bit ? 1 : 2;
+                m[c][r] = bit ? 1 : 2;
+            }
+        }
+
+        function penaltyScore(m, s) {
+            var score = 0;
+            for (var i = 0; i < s; i++) {
+                var runRow = 1, runCol = 1;
+                for (var j = 1; j < s; j++) {
+                    if (m[i][j] === m[i][j-1]) { runRow++; }
+                    else { if (runRow >= 5) score += runRow - 2; runRow = 1; }
+                    if (m[j][i] === m[j-1][i]) { runCol++; }
+                    else { if (runCol >= 5) score += runCol - 2; runCol = 1; }
+                }
+                if (runRow >= 5) score += runRow - 2;
+                if (runCol >= 5) score += runCol - 2;
+            }
+            var dark = 0;
+            for (var i = 0; i < s; i++)
+                for (var j = 0; j < s; j++)
+                    if (m[i][j] === 1) dark++;
+            var pct = dark / (s * s) * 100;
+            score += Math.floor(Math.abs(pct - 50) / 5) * 10;
+            return score;
+        }
+
+        return { generate: generate };
+    })();
+
+
+
+    var state = {
+        originalUrl: null,
+        originalGrid: null,
+        originalSize: 0,
+        safeGrid: null,
+        safeSize: 0,
+        step: 1
+    };
+
+    var $id = function(id) { return document.getElementById(id); };
+
+    function goStep(n) {
+        state.step = n;
+        for (var i = 1; i <= 3; i++) {
+            $id('pane' + i).classList.toggle('active', i === n);
+            var tab = $id('tab' + i);
+            tab.classList.remove('active', 'done');
+            if (i === n) tab.classList.add('active');
+            else if (i < n) tab.classList.add('done');
+        }
+        $id('tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    $id('toStep2').addEventListener('click', function() {
+        buildAnalysis();
+        goStep(2);
+    });
+    $id('toStep3').addEventListener('click', function() {
+        buildOutput();
+        goStep(3);
+    });
+    $id('backStep1').addEventListener('click', function() { goStep(1); });
+    $id('startOver').addEventListener('click', function() {
+        resetTool();
+        goStep(1);
+    });
+
+    var dropZone = $id('dropZone');
+    var fileInput = $id('fileInput');
+
+    $id('browseBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        fileInput.click();
+    });
+    dropZone.addEventListener('click', function() { fileInput.click(); });
+    dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag'); });
+    dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag'); });
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('drag');
+        if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length) processFile(fileInput.files[0]);
+    });
+    $id('resetBtn').addEventListener('click', resetTool);
+
+    function resetTool() {
+        $id('preview1').classList.remove('show');
+        $id('spinner1').classList.remove('show');
+        $id('err1').classList.remove('show');
+        dropZone.style.display = '';
+        fileInput.value = '';
+        state.originalUrl = null;
+        state.originalGrid = null;
+    }
+
+    function processFile(file) {
+        if (!file.type.startsWith('image/')) return showErr('Please upload an image file.');
+        dropZone.style.display = 'none';
+        $id('err1').classList.remove('show');
+        $id('preview1').classList.remove('show');
+        $id('spinner1').classList.add('show');
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = new Image();
+            img.onload = function() { decodeUpload(img, e.target.result); };
+            img.onerror = function() { showErr('Could not load image.'); };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function decodeUpload(img, dataUrl) {
+        var sizes = [
+            [img.naturalWidth, img.naturalHeight],
+            [600, Math.round(600 * img.naturalHeight / img.naturalWidth)],
+            [300, Math.round(300 * img.naturalHeight / img.naturalWidth)],
+            [1000, Math.round(1000 * img.naturalHeight / img.naturalWidth)]
+        ];
+
+        var decoded = null;
+        var c = document.createElement('canvas');
+        var ctx = c.getContext('2d');
+
+        for (var i = 0; i < sizes.length; i++) {
+            c.width = sizes[i][0];
+            c.height = sizes[i][1];
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+            var id = ctx.getImageData(0, 0, c.width, c.height);
+            var code = jsQR(id.data, c.width, c.height, { inversionAttempts: 'attemptBoth' });
+            if (code && code.data) { decoded = code; break; }
+        }
+
+        $id('spinner1').classList.remove('show');
+
+        if (!decoded) {
+            showErr('No QR code detected. Try a clearer, well-lit photo with the QR code centered.');
+            dropZone.style.display = '';
+            return;
+        }
+
+        state.originalUrl = decoded.data;
+
+        extractOriginalGrid(img);
+
+        $id('previewImg').src = dataUrl;
+        $id('decodedUrl').textContent = decoded.data;
+
+        var warns = analyzeUrl(decoded.data);
+        $id('decodedWarn').innerHTML = warns.length ?
+            warns.join('<br>') :
+            '⚠ Always verify — even normal-looking URLs can be deceptive';
+
+        $id('preview1').classList.add('show');
+    }
+
+    function extractOriginalGrid(img) {
+        var c = document.createElement('canvas');
+        var ctx = c.getContext('2d');
+        var w = img.naturalWidth, h = img.naturalHeight;
+        c.width = w; c.height = h;
+        ctx.drawImage(img, 0, 0);
+        var id = ctx.getImageData(0, 0, w, h);
+        var code = jsQR(id.data, w, h, { inversionAttempts: 'attemptBoth' });
+
+        if (code && code.location) {
+            var tl = code.location.topLeftCorner;
+            var tr = code.location.topRightCorner;
+            var bl = code.location.bottomLeftCorner;
+            var br = code.location.bottomRightCorner;
+
+            var pw = Math.sqrt(Math.pow(tr.x - tl.x, 2) + Math.pow(tr.y - tl.y, 2));
+            var ph = Math.sqrt(Math.pow(bl.x - tl.x, 2) + Math.pow(bl.y - tl.y, 2));
+
+            var safeQR = QRGen.generate(SAFE_URL);
+            state.safeGrid = safeQR.grid;
+            state.safeSize = safeQR.size;
+
+            var mods = safeQR.size;
+            var grid = [];
+            for (var r = 0; r < mods; r++) {
+                grid[r] = [];
+                for (var cc = 0; cc < mods; cc++) {
+                    var fx = r / mods, fy = cc / mods;
+                    var px = tl.x + (tr.x - tl.x) * fy + (bl.x - tl.x) * fx + (br.x - tr.x - bl.x + tl.x) * fx * fy;
+                    var py = tl.y + (tr.y - tl.y) * fy + (bl.y - tl.y) * fx + (br.y - tr.y - bl.y + tl.y) * fx * fy;
+                    px = Math.round(px);
+                    py = Math.round(py);
+                    if (px >= 0 && px < w && py >= 0 && py < h) {
+                        var idx = (py * w + px) * 4;
+                        var lum = id.data[idx] * 0.299 + id.data[idx+1] * 0.587 + id.data[idx+2] * 0.114;
+                        grid[r][cc] = lum < 128;
+                    } else {
+                        grid[r][cc] = false;
+                    }
+                }
+            }
+            state.originalGrid = grid;
+            state.originalSize = mods;
+        }
+    }
+
+    function analyzeUrl(url) {
+        var w = [];
+        var u = url.toLowerCase();
+        if (u.match(/paypa[l1i]|app[l1]e|go[o0]g[l1]e|amaz[o0]n|micr[o0]s[o0]ft/i) &&
+            !u.match(/^https?:\/\/(www\.)?(paypal|apple|google|amazon|microsoft)\.(com|co\.\w+)/))
+            w.push('⚠ Appears to impersonate a major brand');
+        if (!u.startsWith('https://')) w.push('⚠ Not using HTTPS');
+        if (u.match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/)) w.push('⚠ Raw IP address — no domain name');
+        if (u.match(/bit\.ly|tinyurl|t\.co|goo\.gl|is\.gd|rebrand/)) w.push('⚠ URL shortener hides destination');
+        if (u.match(/login|signin|verify|confirm|secure|update|account/)) w.push('⚠ Credential-harvesting keywords detected');
+        if (u.match(/\.ru\/|\.cn\/|\.tk\/|\.ml\/|\.ga\/|\.cf\//)) w.push('⚠ Suspicious TLD');
+        return w;
+    }
+
+    function showErr(msg) {
+        var el = $id('err1');
+        el.textContent = msg;
+        el.classList.add('show');
+        $id('spinner1').classList.remove('show');
+    }
+
+    function buildAnalysis() {
+        if (!state.safeGrid) {
+            var safeQR = QRGen.generate(SAFE_URL);
+            state.safeGrid = safeQR.grid;
+            state.safeSize = safeQR.size;
+        }
+
+        var cellPx = 6;
+        var margin = 4;
+
+        if (!state.originalGrid) {
+            var s = state.safeSize;
+            state.originalGrid = [];
+            state.originalSize = s;
+            for (var r = 0; r < s; r++) {
+                state.originalGrid[r] = [];
+                for (var c = 0; c < s; c++)
+                    state.originalGrid[r][c] = Math.random() < 0.45;
+            }
+        }
+
+        var gs = state.safeSize;
+        var origGrid = normalizeGrid(state.originalGrid, state.originalSize, gs);
+
+        drawGrid($id('canvasOld'), origGrid, gs, cellPx, margin);
+        $id('labelOldUrl').textContent = state.originalUrl || 'Unknown';
+
+        drawGrid($id('canvasNew'), state.safeGrid, gs, cellPx, margin);
+        $id('labelNewUrl').textContent = SAFE_URL;
+
+        drawOverlay($id('canvasOverlay'), origGrid, state.safeGrid, gs, cellPx, margin);
+
+        var changes = 0;
+        var added = 0, removed = 0;
+        for (var r = 0; r < gs; r++)
+            for (var c = 0; c < gs; c++) {
+                var o = origGrid[r][c];
+                var n = state.safeGrid[r][c];
+                if (o !== n) {
+                    changes++;
+                    if (n && !o) added++;
+                    else removed++;
+                }
+            }
+        $id('modCountNum').textContent = changes + ' (' + added + ' added, ' + removed + ' removed)';
+    }
+
+    function normalizeGrid(grid, fromSize, toSize) {
+        if (fromSize === toSize) return grid;
+        var result = [];
+        for (var r = 0; r < toSize; r++) {
+            result[r] = [];
+            for (var c = 0; c < toSize; c++) {
+                var sr = Math.floor(r * fromSize / toSize);
+                var sc = Math.floor(c * fromSize / toSize);
+                result[r][c] = grid[sr] && grid[sr][sc] ? true : false;
+            }
+        }
+        return result;
+    }
+
+    function drawGrid(canvas, grid, gs, cellPx, margin) {
+        var total = (gs + margin * 2) * cellPx;
+        canvas.width = total;
+        canvas.height = total;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, total, total);
+        ctx.fillStyle = '#000';
+        for (var r = 0; r < gs; r++)
+            for (var c = 0; c < gs; c++)
+                if (grid[r][c])
+                    ctx.fillRect((c + margin) * cellPx, (r + margin) * cellPx, cellPx, cellPx);
+    }
+
+    function drawOverlay(canvas, origGrid, safeGrid, gs, cellPx, margin) {
+        var total = (gs + margin * 2) * cellPx;
+        canvas.width = total;
+        canvas.height = total;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, total, total);
+
+        for (var r = 0; r < gs; r++) {
+            for (var c = 0; c < gs; c++) {
+                var o = origGrid[r][c];
+                var n = safeGrid[r][c];
+                var x = (c + margin) * cellPx;
+                var y = (r + margin) * cellPx;
+
+                if (o && n) {
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(x, y, cellPx, cellPx);
+                } else if (!o && !n) {
+                } else if (!o && n) {
+                    ctx.fillStyle = '#00c853';
+                    ctx.fillRect(x, y, cellPx, cellPx);
+                } else {
+                    ctx.fillStyle = '#ff1744';
+                    ctx.fillRect(x, y, cellPx, cellPx);
+                }
+            }
+        }
+
+        ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+        ctx.lineWidth = 0.5;
+        for (var i = 0; i <= gs; i++) {
+            var p = (i + margin) * cellPx;
+            ctx.beginPath();
+            ctx.moveTo(margin * cellPx, p);
+            ctx.lineTo((gs + margin) * cellPx, p);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(p, margin * cellPx);
+            ctx.lineTo(p, (gs + margin) * cellPx);
+            ctx.stroke();
+        }
+    }
+
+    function buildOutput() {
+        var cellPx = 10;
+        var margin = 4;
+        var gs = state.safeSize;
+
+        drawGrid($id('canvasFinal'), state.safeGrid, gs, cellPx, margin);
+        $id('finalUrl').textContent = SAFE_URL;
+
+        $id('downloadBtn').href = $id('canvasFinal').toDataURL('image/png');
+    }
+
+    $id('printBtn').addEventListener('click', function() {
+        var dataUrl = $id('canvasFinal').toDataURL('image/png');
+        var win = window.open('', '_blank');
+        win.document.write(
+            '<html><head><title>Print Safe QR</title>' +
+            '<style>body{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:monospace}' +
+            'img{width:3in;height:3in;image-rendering:pixelated}' +
+            '.cut{width:3.5in;border:2px dashed #ccc;padding:24px;display:flex;flex-direction:column;align-items:center;margin:20px}' +
+            '.lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:12px}' +a
+            '.url{font-size:14px;font-weight:bold;margin-top:12px}' +
+            '.warn{font-size:11px;color:#cc0000;margin-top:12px;text-align:center;max-width:3in;line-height:1.5}' +
+            '@media print{.noprint{display:none}}</style></head><body>' +
+            '<p class="noprint">Print this page. Cut along dashed line. Cover the scam QR code.</p>' +
+            '<div class="cut">' +
+            '<div class="lbl">✓ Safe QR — Public Safety Warning</div>' +
+            '<img src="' + dataUrl + '">' +
+            '<div class="url">' + SAFE_URL + '</div>' +
+            '<div class="warn">⚠ THE ORIGINAL QR CODE AT THIS LOCATION WAS IDENTIFIED AS POTENTIALLY FRAUDULENT</div>' +
+            '</div>' +
+            '<script>window.onload=function(){window.print()}<\/script>' +
+            '</body></html>'
+        );
+        win.document.close();
+    });
+
+    $id('downloadBtn').addEventListener('click', function(e) {
+        if (!this.href || this.href === '#') e.preventDefault();
+    });
+
+})();
+</script>
+</body>
+</html>
